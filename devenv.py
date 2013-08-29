@@ -85,12 +85,19 @@ access_choice = Choice("access", {
 })
 #TODO: generate the list of types some how
 type_choice = Choice("type", {
-    "int": "int",
+    "void": "void",
+
+    "bool": "bool",
+    "byte": "byte",
+    "char": "char",
+    "double": "double",
     "float": "float",
+    "int": "int",
     "long": "long",
     "string": "string",
-    "void": "void",
+
     "date time": "DateTime",
+
     "SubTexture2D": "SubTexture2D",
 })
 
