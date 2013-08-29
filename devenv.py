@@ -38,19 +38,38 @@ def format_wimpy(text, preamble="", postamble=""):
 example_rule = MappingRule(
     name="example",    # The name of the rule.
     mapping={          # The mapping dict: spec -> action.
-             "save all":            Key("cs-s"),
-			 "public class <text>": Function(format_studly, preamble="public class ", postamble="\n{}"),
-			 "wimpy <text>": Function(format_wimpy),
-			 "auto <text>": Function(format_wimpy, preamble="var ", postamvble=" = "),
-			 "studly <text>": Function(format_studly),
-			 "comment <text>": Text("//%(text)s"),
-			 "super jump <text>": Key("c-t") + Text("%(text)s"),
-			 "build and run": Key("f5"),
-			 "refactor": Key("cs-r"),
-			 "quick fix": Key("a-enter"),
-			 "quick quick fix": Key("a-enter") + Key("enter"),
-			 "console dot write line": Text("Console.WriteLine("),
-			 "implements <text>": Function(format_studly, preamble=" : "),
+			
+			#Basic visual studio usage
+			"save all":            Key("cs-s"),
+			"build and run": Key("f5"),
+			
+			#Formatting
+			"wimpy <text>": Function(format_wimpy),
+			"studly <text>": Function(format_studly),
+			
+			#Resharper
+			"super jump <text>": Key("c-t") + Text("%(text)s"),
+			"refactor": Key("cs-r"),
+			"rename": Key("c-r") + Key("c-r"),
+			"quick fix": Key("a-enter"),
+			"quick quick fix": Key("a-enter") + Key("enter"),
+			
+			#Declaration
+			"public class <text>": Function(format_studly, preamble="public class ", postamble="\n{}"),
+			"private class <text>": Function(format_studly, preamble="private class ", postamble="\n{}"),
+			
+			#coding
+			"auto <text>": Function(format_wimpy, preamble="var ", postamble=" = "),
+			"comment <text>": Text("//%(text)s"),
+			"console dot write line": Text("Console.WriteLine("),
+			"implements <text>": Function(format_studly, preamble=" : "),
+			
+			#nunit
+			"assert equal": Text("Assert.AreEqual("),
+			
+
+
+			
             },
     extras=[           # Special elements in the specs of the mapping.
             Dictation("text"),
