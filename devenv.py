@@ -22,13 +22,13 @@ grammar = Grammar("notepad_example", context=grammar_context)
 
 #SomeWords
 def format_studly(text, preamble="", postamble=""):
-    text = str(text)
+    text = str(text).lower()
     words = [word.capitalize() for word in text.split(" ")]
     Text(preamble + "".join(words) + postamble).execute()
 
 #someWords	
 def format_wimpy(text, preamble="", postamble=""):
-    text = str(text)
+    text = str(text).lower()
     words = text.split(" ")
     words = words[0] + "".join(w.capitalize() for w in words[1:])
     Text(preamble + "".join(words) + postamble).execute()
@@ -57,7 +57,8 @@ example_rule = MappingRule(
 			#Declaration
 			"public class <text>": Function(format_studly, preamble="public class ", postamble="\n{}"),
 			"private class <text>": Function(format_studly, preamble="private class ", postamble="\n{}"),
-			
+			"get set": Text(" { get; set; }"),
+                        
 			#coding
 			"auto <text>": Function(format_wimpy, preamble="var ", postamble=" = "),
 			"comment <text>": Text("//%(text)s"),
@@ -77,27 +78,42 @@ example_rule = MappingRule(
     )
 grammar.add_rule(example_rule)
 
+access_choice = Choice("access", {
+    "public": "public",
+    "private": "private",
+    "protected": "protected",
+})
+#TODO: generate the list of types some how
+type_choice = Choice("type", {
+    "int": "int",
+    "float": "float",
+    "long": "long",
+    "string": "string",
+    "void": "void",
+    "date time": "DateTime",
+    "SubTexture2D": "SubTexture2D",
+})
+
+class CreatePropertyRule(CompoundRule):
+	spec = "<access> <type> property <text>"
+	extras = [
+		access_choice,
+                type_choice,
+                Dictation("text")
+	]
+	def _process_recognition(self, node, extras):
+		format_studly(extras["text"], extras["access"] + " " + extras["type"] + " ", " { get; set; }\n")
+grammar.add_rule(CreatePropertyRule())
+		
 class CreateFnRule(CompoundRule):
 	spec = "<access> <type> <text>"
 	extras = [
-		Choice("access", {
-			"public": "public",
-			"private": "private",
-			"protected": "protected",
-		}),
-		#TODO: generate the list of types some how
-		Choice("type", {
-			"int": "int",
-			"float": "float",
-			"string": "string",
-			"void": "void",
-			"SubTexture2D": "SubTexture2D",
-		}),
-		Dictation("text")
+		access_choice,
+                type_choice,
+                Dictation("text")
 	]
 	def _process_recognition(self, node, extras):
 		format_studly(extras["text"], extras["access"] + " " + extras["type"] + " ", "(")
-
 grammar.add_rule(CreateFnRule())
 
 #---------------------------------------------------------------------------
