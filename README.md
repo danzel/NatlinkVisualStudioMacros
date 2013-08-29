@@ -8,5 +8,5 @@ Instructions for use
 - Install Dragon NaturallySpeaking
 - Install NatLink (And any python requirements)
 - Install dragonfly
-- Git check out to C:\NatLink\NatLink\MacroSystem
+- Git check out to C:\NatLink\NatLink\MacroSystem (Not a sub dir)
 - Restart Dragon naturally speaking
