@@ -122,6 +122,17 @@ class CreateFnRule(CompoundRule):
 	def _process_recognition(self, node, extras):
 		format_studly(extras["text"], extras["access"] + " " + extras["type"] + " ", "(")
 grammar.add_rule(CreateFnRule())
+		
+class CreateConstRule(CompoundRule):
+	spec = "<access> const <type> <text>"
+	extras = [
+		access_choice,
+                type_choice,
+                Dictation("text")
+	]
+	def _process_recognition(self, node, extras):
+		format_studly(extras["text"], extras["access"] + " const " + extras["type"] + " ", " = ")
+grammar.add_rule(CreateConstRule())
 
 #---------------------------------------------------------------------------
 # Load the grammar instance and define how to unload it.
