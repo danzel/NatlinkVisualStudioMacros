@@ -53,7 +53,8 @@ example_rule = MappingRule(
 			"rename": Key("c-r") + Key("c-r"),
 			"quick fix": Key("a-enter"),
 			"quick quick fix": Key("a-enter") + Key("enter"),
-			
+			"next error": Key("as-pgdown"),
+                                          
 			#Declaration
 			"public class <text>": Function(format_studly, preamble="public class ", postamble="\n{}"),
 			"private class <text>": Function(format_studly, preamble="private class ", postamble="\n{}"),
@@ -67,9 +68,6 @@ example_rule = MappingRule(
 			
 			#nunit
 			"assert equal": Text("Assert.AreEqual("),
-			
-
-
 			
             },
     extras=[           # Special elements in the specs of the mapping.
@@ -97,6 +95,17 @@ type_choice = Choice("type", {
     "string": "string",
 
     "date time": "DateTime",
+    "time span": "TimeSpan",
+
+    "nullable bool": "bool?",
+    "nullable byte": "byte?",
+    "nullable char": "char?",
+    "nullable float": "float?",
+    "nullable int": "int?",
+    "nullable long": "long?",
+
+    "nullable date time": "DateTime?",
+    "nullable time span": "TimeSpan?",
 
     "SubTexture2D": "SubTexture2D",
 })
